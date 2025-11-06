@@ -1,0 +1,5 @@
+{
+  "name": "G-Factor IQ Test",
+  "description": "An adaptive AI-based IQ assessment measuring reasoning, working memory, and logic. Features real-time analysis and secure testing.",
+  "requestFramePermissions": []
+}
