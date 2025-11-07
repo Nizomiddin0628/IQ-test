@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend } from 'recharts';
 import { TestResult } from '../types';
 import Button from './Button';
@@ -13,9 +12,29 @@ interface ResultsScreenProps {
 
 const ResultsScreen: React.FC<ResultsScreenProps> = ({ results, onTryAgain }) => {
   const { iqScore, percentile, cognitiveProfile, strengths, weaknesses, totalTimeSeconds } = results;
+  const [shareText, setShareText] = useState('Natijalarni Ulashish');
+
+  const handleShare = () => {
+    const summary = `Men G-Factor IQ Testida ${iqScore} ball to'pladim va ${percentile}-foizlikka kirdim! Siz ham sinab ko'ring.`;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(summary).then(() => {
+        setShareText('Nusxalandi!');
+        setTimeout(() => {
+          setShareText('Natijalarni Ulashish');
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+        setShareText('Xatolik!');
+        setTimeout(() => {
+          setShareText('Natijalarni Ulashish');
+        }, 2000);
+      });
+    }
+  };
+
 
   return (
-    <div className="p-4 md:p-6 bg-slate-800/50 rounded-2xl shadow-2xl backdrop-blur-sm border border-slate-700 w-full animate-fade-in">
+    <div className="p-4 md:p-6 bg-slate-800/50 rounded-2xl shadow-2xl backdrop-blur-sm border border-slate-700 w-full">
       <h1 className="text-3xl md:text-4xl font-bold text-center text-white mb-2">Sizning Natijalaringiz</h1>
       
       <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 my-6">
@@ -70,9 +89,9 @@ const ResultsScreen: React.FC<ResultsScreenProps> = ({ results, onTryAgain }) =>
       </div>
 
       <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-        <Button variant="secondary">
+        <Button variant="secondary" onClick={handleShare} disabled={shareText !== 'Natijalarni Ulashish'}>
             <ShareIcon className="w-5 h-5" />
-            Natijalarni Ulashish
+            {shareText}
         </Button>
         <Button onClick={onTryAgain} variant="primary">
             <RetryIcon className="w-5 h-5" />

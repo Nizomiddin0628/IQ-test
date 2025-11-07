@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { Screen, TestResult } from './types';
 import HomeScreen from './components/HomeScreen';
@@ -48,9 +47,12 @@ const App: React.FC = () => {
       <div className="absolute top-4 left-4 text-lg font-bold text-slate-500 select-none tracking-wider">
         Khalilov
       </div>
-      <div className="w-full max-w-2xl mx-auto">
+      <div key={screen} className="w-full max-w-2xl mx-auto animate-fade-in">
         {renderScreen()}
       </div>
+      <footer className="absolute bottom-4 text-center text-slate-600 text-sm">
+        © 2024 Khalilov Labs. Barcha huquqlar himoyalangan.
+      </footer>
     </main>
   );
 };
